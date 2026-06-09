@@ -1,4 +1,12 @@
 <%= form_with model: product do |form| %>
+  <% if product.errors.any? %>
+    <ul>
+      <% product.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
   <div>
     <%= form.label :name %>
     <%= form.text_field :name %>
