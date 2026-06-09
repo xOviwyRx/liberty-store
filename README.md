@@ -28,7 +28,7 @@ A modern e-commerce store with a fast, reactive interface. Browse a product cata
 - Hotwire (Turbo + Stimulus)
 - Tailwind CSS
 - Propshaft asset pipeline
-- Import maps (ESM JavaScript, no bundler)
+- Import maps (ESM JavaScript)
 
 ### Authentication
 - `has_secure_password` (bcrypt)
