@@ -20,7 +20,7 @@ A modern e-commerce store with a fast, reactive interface. Browse a product cata
 ## Tech Stack
 
 ### Backend
-- Ruby 3.2
+- Ruby 3.4.3
 - Ruby on Rails 8.0
 - SQLite (development) / PostgreSQL (production)
 
