@@ -3,8 +3,15 @@ class SubscribersController < ApplicationController
   before_action :set_product
 
   def create
-    @product.subscribers.where(subscriber_params).first_or_create
-    redirect_to @product, notice: "You are now subscribed."
+    subscriber = @product.subscribers.new(subscriber_params)
+
+    if subscriber.save
+      redirect_to @product, notice: "You are now subscribed."
+    elsif subscriber.errors.where(:email, :taken).any?
+      redirect_to @product, notice: "You are already subscribed."
+    else
+      redirect_to @product, alert: subscriber.errors.full_messages.to_sentence
+    end
   end
 
   private

@@ -22,14 +22,17 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <main>
+  <body>
     <nav>
       <%= link_to "Home", root_path %>
       <%= link_to "Login", new_session_path unless authenticated? %>
       <%= button_to "Log out", session_path, method: :delete if authenticated? %>
     </nav>
-    <div class="notice"><%= notice %></div>
-    <main
+
+    <% if notice %><div class="notice"><%= notice %></div><% end %>
+    <% if alert %><div class="alert"><%= alert %></div><% end %>
+
+    <main>
       <%= yield %>
     </main>
   </body>
