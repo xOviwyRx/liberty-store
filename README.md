@@ -22,7 +22,7 @@ A modern e-commerce store with a fast, reactive interface. Browse a product cata
 ### Backend
 - Ruby 3.4.3
 - Ruby on Rails 8.0
-- SQLite (development) / PostgreSQL (production)
+- PostgreSQL
 
 ### Frontend
 - Hotwire (Turbo + Stimulus)
@@ -104,13 +104,18 @@ English and Spanish translations ship with the app.
 
 2. **Install dependencies**
    ```bash
+   # The pg gem needs the PostgreSQL client headers (Debian/Ubuntu):
+   sudo apt-get install -y libpq-dev
    bundle install
    ```
 
 3. **Set up the database**
+
+   Requires a running PostgreSQL. By default the app connects as `postgres` / `postgres` on `localhost:5432` — override with `DB_HOST`, `DB_USERNAME`, and `DB_PASSWORD` if your setup differs.
    ```bash
    bin/rails db:setup
    ```
+   This creates the databases, loads the schema, and (in development) seeds an admin user and sample products.
 
 4. **Start the app** (Rails server + Tailwind watcher)
    ```bash
@@ -118,12 +123,7 @@ English and Spanish translations ship with the app.
    ```
    Then open http://localhost:3000
 
-5. **Create a user** to manage the catalog
-   ```bash
-   bin/rails console
-   # In the console:
-   User.create!(email_address: "admin@example.com", password: "password123", password_confirmation: "password123")
-   ```
+5. **Log in** to manage the catalog using the development admin seeded in the previous step (credentials are in `db/seeds.rb`).
 
 ## Development
 
