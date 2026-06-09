@@ -1,70 +1,105 @@
-# Rails 8 Store
+# Liberty Store
 
-A modern e-commerce web application built with Ruby on Rails 8, demonstrating the latest Rails features and best practices. This project showcases a complete online store with product management, user authentication, rich text editing, file uploads, email notifications, and internationalization.
+A modern e-commerce store with a fast, reactive interface. Browse a product catalog with rich-text descriptions and images, subscribe to out-of-stock items and get notified when they return, add products to a cart, and see stock update in real time.
+
+## Table of Contents
+
+- [Tech Stack](#tech-stack)
+- [Features](#features)
+   - [Catalog & Product Management](#catalog--product-management)
+   - [Back-in-Stock Alerts](#back-in-stock-alerts)
+   - [Shopping Cart](#shopping-cart)
+   - [Live Stock Updates](#live-stock-updates)
+   - [Internationalization](#internationalization)
+- [Getting Started](#getting-started)
+- [Development](#development)
+   - [Code Quality & Testing](#code-quality--testing)
+   - [Deployment](#deployment)
+- [Roadmap](#roadmap)
+
+## Tech Stack
+
+### Backend
+- Ruby 3.2
+- Ruby on Rails 8.0
+- SQLite (development) / PostgreSQL (production)
+
+### Frontend
+- Hotwire (Turbo + Stimulus)
+- Tailwind CSS
+- Propshaft asset pipeline
+- Import maps (ESM JavaScript, no bundler)
+
+### Authentication
+- `has_secure_password` (bcrypt)
+- Rails 8 authentication generator (session-based)
+
+### Content & File Storage
+- Action Text (rich-text product descriptions)
+- Active Storage + `image_processing` (image uploads and variants)
+
+### Background Jobs & Email
+- Solid Queue
+- Action Mailer
+
+### Caching & Real-Time
+- Solid Cache
+- Solid Cable (WebSockets)
+
+### Testing & Code Quality
+- Minitest (model, controller, mailer)
+- RuboCop (Rails Omakase)
+- Brakeman
+
+### DevOps & Deployment
+- Docker
+- Kamal
 
 ## Features
 
-### 🛍️ Product Management
-- **CRUD Operations**: Create, read, update, and delete products
-- **Rich Text Descriptions**: Powered by Action Text with embedded media support
-- **File Uploads**: Featured image uploads using Active Storage
-- **Inventory Tracking**: Real-time stock management with validation
-- **Responsive Design**: Clean, modern CSS with mobile-friendly layouts
+### Catalog & Product Management
 
-### 🔐 Authentication & Authorization
-- **User Authentication**: Secure login/logout system using Rails 8 authentication generator
-- **Protected Routes**: Authenticated-only access for product management
-- **Guest Access**: Public product browsing for unauthenticated users
-- **Password Security**: BCrypt encryption for secure password storage
+A public catalog with authenticated management. Each product carries a name, an inventory count, a rich-text description (Action Text), and a featured image (Active Storage).
 
-### 📧 Email Notifications
-- **Stock Alerts**: Automatic email notifications when products come back in stock
-- **Subscriber Management**: Users can subscribe to out-of-stock products
-- **Unsubscribe Links**: Secure token-based unsubscribe functionality
-- **HTML & Text Emails**: Professional email templates in both formats
+- Guests can browse all products without logging in.
+- Authenticated users can create, edit, and delete products.
+- Descriptions support embedded formatting and media via Action Text.
+- Featured images are uploaded through Active Storage with on-the-fly variants.
 
-### 🌍 Internationalization
-- **Multi-language Support**: English and Spanish translations included
-- **Locale Switching**: URL-based locale parameter support
-- **Organized Translations**: Structured locale files with relative lookups
+### Back-in-Stock Alerts
 
-### ⚡ Performance & Optimization
-- **Caching**: Solid Cache for improved page load times
-- **Background Jobs**: Solid Queue for asynchronous email processing
-- **Asset Pipeline**: Propshaft for efficient asset management
-- **Import Maps**: Modern JavaScript without build steps
+When a product is out of stock, visitors can subscribe to be notified when it returns.
 
-### 🎨 Modern Frontend
-- **Hotwire Integration**: Turbo and Stimulus for reactive user interfaces
-- **No Build Steps**: Import maps for JavaScript dependencies
-- **Progressive Enhancement**: Works without JavaScript, enhanced with it
+- The product page shows a subscription form while inventory is `0`.
+- When inventory goes from `0` to a positive number, every subscriber is emailed.
+- Emails are delivered from a background job (Solid Queue) so requests stay fast.
+- Each email includes a secure, token-based unsubscribe link.
 
-## Technology Stack
+### Shopping Cart
 
-- **Backend**: Ruby on Rails 8.0+
-- **Database**: SQLite (development), PostgreSQL (production recommended)
-- **Authentication**: Rails 8 built-in authentication
-- **Frontend**: Hotwire (Turbo + Stimulus)
-- **Styling**: Vanilla CSS with modern flexbox layouts
-- **Email**: Action Mailer with background job processing
-- **File Storage**: Active Storage for image uploads
-- **Caching**: Solid Cache (database-backed)
-- **Background Jobs**: Solid Queue
-- **Deployment**: Kamal with Docker containerization
+> **(in progress)**
 
-## Prerequisites
+Add products to a cart and check out, with the cart updating live as you shop — the nav badge and cart panel update in a single response, without a full page reload.
 
-- Ruby 3.2 or newer
-- Rails 8.0.0 or newer
-- Node.js (for asset compilation)
-- Git
+### Live Stock Updates
 
-## Installation
+> **(in progress)**
+
+Stock status updates in real time. When an item is restocked, it becomes available to everyone currently viewing it without a page refresh.
+
+### Internationalization
+
+English and Spanish translations ship with the app.
+
+- Append `?locale=es` to any URL to switch to Spanish.
+- Translations are organized in `config/locales`.
+
+## Getting Started
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/rails8-store.git
-   cd rails8-store
+   git clone https://github.com/xOviwyRx/<repo>.git
+   cd store
    ```
 
 2. **Install dependencies**
@@ -72,187 +107,55 @@ A modern e-commerce web application built with Ruby on Rails 8, demonstrating th
    bundle install
    ```
 
-3. **Setup the database**
+3. **Set up the database**
    ```bash
-   bin/rails db:migrate
+   bin/rails db:setup
    ```
 
-4. **Install Action Text**
+4. **Start the app** (Rails server + Tailwind watcher)
    ```bash
-   bin/rails action_text:install
-   bin/rails db:migrate
+   bin/dev
    ```
+   Then open http://localhost:3000
 
-5. **Create a user account**
+5. **Create a user** to manage the catalog
    ```bash
    bin/rails console
    # In the console:
    User.create!(email_address: "admin@example.com", password: "password123", password_confirmation: "password123")
    ```
 
-6. **Start the server**
-   ```bash
-   bin/rails server
-   ```
+## Development
 
-7. **Visit the application**
-   Open http://localhost:3000 in your browser
+### Code Quality & Testing
 
-## Usage
-
-### Managing Products
-1. **Login** with your user credentials
-2. **Create Products**: Click "New product" to add products with names, descriptions, and images
-3. **Edit Products**: Update product information and inventory counts
-4. **Delete Products**: Remove products from the store
-
-### Customer Experience
-1. **Browse Products**: View all available products without authentication
-2. **Subscribe to Notifications**: Get notified when out-of-stock items return
-3. **Multilingual Support**: Add `?locale=es` to URLs for Spanish translation
-
-### Email Notifications
-- Products with 0 inventory show subscription forms
-- When inventory is updated from 0 to a positive number, all subscribers receive email notifications
-- Emails include unsubscribe links for easy opt-out
-
-## Configuration
-
-### Environment Variables
 ```bash
-# For production deployment with Kamal
-KAMAL_REGISTRY_PASSWORD=your-docker-hub-token
+bin/rails test     # model, controller, and mailer tests
+bin/rubocop        # Rails Omakase style
+bin/brakeman       # static security analysis
 ```
 
-### Email Configuration
-Configure your email settings in `config/environments/production.rb`:
+### Deployment
 
-```ruby
-config.action_mailer.delivery_method = :smtp
-config.action_mailer.smtp_settings = {
-  address: 'smtp.gmail.com',
-  port: 587,
-  domain: 'yourdomain.com',
-  user_name: 'your-email@gmail.com',
-  password: 'your-app-password',
-  authentication: 'plain',
-  enable_starttls_auto: true
-}
-```
+Configured for [Kamal](https://kamal-deploy.org):
 
-### Internationalization
-Add new locales by creating files in `config/locales/`:
-- `config/locales/fr.yml` for French
-- `config/locales/de.yml` for German
-
-## Testing
-
-Run the test suite:
 ```bash
-# Run all tests
-bin/rails test
-
-# Run specific test file
-bin/rails test test/models/product_test.rb
-
-# Run with coverage
-bin/rails test --verbose
+export KAMAL_REGISTRY_PASSWORD=your-token
+bin/kamal setup    # first deploy
+bin/kamal deploy   # subsequent deploys
 ```
 
-## Code Quality
+Configure SMTP for outgoing email in `config/environments/production.rb`.
 
-### Linting
-```bash
-# Check code formatting
-bin/rubocop
+## Roadmap
 
-# Auto-fix formatting issues
-bin/rubocop -a
-```
-
-### Security Analysis
-```bash
-# Run security analysis
-bin/brakeman
-```
-
-## Deployment
-
-This application is configured for deployment using Kamal:
-
-1. **Setup your server** (Ubuntu LTS with 1GB+ RAM)
-2. **Configure Docker Hub**:
-    - Create account and repository
-    - Generate access token
-3. **Update deployment configuration** in `config/deploy.yml`
-4. **Deploy**:
-   ```bash
-   export KAMAL_REGISTRY_PASSWORD=your-token
-   bin/kamal setup  # First deployment
-   bin/kamal deploy # Subsequent deployments
-   ```
-
-### Production Setup
-After deployment, create an admin user:
-```bash
-bin/kamal console
-# In production console:
-User.create!(email_address: "admin@yourdomain.com", password: "secure-password", password_confirmation: "secure-password")
-```
-
-## Architecture
-
-### Models
-- **Product**: Core product model with validations and associations
-- **User**: Authentication model with secure password handling
-- **Subscriber**: Email subscription model for stock notifications
-- **Product::Notifications**: Concern for handling email notifications
-
-### Controllers
-- **ProductsController**: RESTful product management
-- **SubscribersController**: Email subscription handling
-- **UnsubscribesController**: Secure unsubscribe functionality
-- **ApplicationController**: Base controller with authentication
-
-### Key Features Implementation
-- **Rich Text**: Action Text integration for product descriptions
-- **File Uploads**: Active Storage for product images
-- **Background Jobs**: Solid Queue for email processing
-- **Caching**: Fragment caching for improved performance
-- **Security**: CSRF protection, strong parameters, secure tokens
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## Best Practices Demonstrated
-
-- **RESTful Design**: Standard Rails conventions and routing
-- **Security First**: Authentication, authorization, and input validation
-- **Test Coverage**: Model and mailer tests with fixtures
-- **Code Organization**: Concerns for shared functionality
-- **Performance**: Caching and background job processing
-- **Accessibility**: Semantic HTML and proper form labeling
-- **Internationalization**: Multi-language support from the start
-
-## Learning Resources
-
-This project demonstrates concepts from:
-- [Rails Guides](https://guides.rubyonrails.org/)
-- [Ruby on Rails Tutorial](https://www.railstutorial.org/)
-- [Rails 8 Release Notes](https://guides.rubyonrails.org/8_0_release_notes.html)
+- [ ] Shopping cart with live Turbo Stream updates
+- [ ] Live stock status via Turbo Stream broadcasting
+- [ ] Product search and filtering with Turbo Frames
+- [ ] Orders and checkout
+- [ ] GitHub Actions CI
+- [ ] Deploy live
 
 ## License
 
-This project is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Support
-
-If you encounter any issues or have questions:
-1. Check the [Rails Guides](https://guides.rubyonrails.org/)
-2. Search existing [GitHub Issues](https://github.com/rails/rails/issues)
-3. Create a new issue with detailed information
+[MIT](https://opensource.org/licenses/MIT)
