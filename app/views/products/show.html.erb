@@ -1,21 +1,29 @@
-<p><%= link_to "Back", products_path %></p>
+<%= link_to "← Back to products", products_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
 
-<section class="product">
-  <%= image_tag @product.featured_image if @product.featured_image.attached? %>
+<section class="mt-4 grid grid-cols-1 gap-8 rounded-lg border border-gray-200 bg-white p-6 md:grid-cols-2">
+  <div>
+    <% if @product.featured_image.attached? %>
+      <%= image_tag @product.featured_image, class: "w-full rounded-lg border border-gray-200 bg-white object-cover" %>
+    <% else %>
+      <div class="flex aspect-square w-full items-center justify-center rounded-lg border border-gray-200 bg-white text-sm text-gray-400">No image</div>
+    <% end %>
+  </div>
 
-  <section class="product-info">
+  <div>
     <% cache @product do %>
-      <%= image_tag @product.featured_image if @product.featured_image.attached? %>
-      <h1><%= @product.name %></h1>
-      <%= @product.description %>
+      <h1 class="text-2xl font-bold tracking-tight"><%= @product.name %></h1>
+      <div class="mt-4 text-gray-700"><%= @product.description %></div>
     <% end %>
 
-    <%= render "inventory", product: @product %>
+    <div class="mt-6">
+      <%= render "inventory", product: @product %>
+    </div>
 
-    <%= link_to "Back", products_path %>
     <% if authenticated? %>
-      <%= link_to "Edit", edit_product_path(@product) %>
-      <%= button_to "Delete", @product, method: :delete, data: { turbo_confirm: "Are you sure?" }%>
+      <div class="mt-8 flex items-center gap-3 border-t border-gray-200 pt-4">
+        <%= link_to "Edit", edit_product_path(@product), class: "rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium hover:bg-gray-50" %>
+        <%= button_to "Delete", @product, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "rounded-md border border-red-300 bg-white px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-50 cursor-pointer" %>
+      </div>
     <% end %>
-  </section>
+  </div>
 </section>

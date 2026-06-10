@@ -20,7 +20,7 @@ RSpec.describe "Subscribers", type: :request do
         post product_subscribers_path(product), params: { subscriber: { email: "FAN@example.com" } }
       }.not_to change(Subscriber, :count)
 
-      expect(flash[:notice]).to eq("You are already subscribed.")
+      expect(flash[:alert]).to eq("You are already subscribed.")
     end
 
     it "shows the error for an invalid email" do

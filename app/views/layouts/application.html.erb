@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Store" %></title>
+    <title><%= content_for(:title) || "Liberty Store" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -19,20 +19,39 @@
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <nav>
-      <%= link_to "Home", root_path %>
-      <%= link_to "Login", new_session_path unless authenticated? %>
-      <%= button_to "Log out", session_path, method: :delete if authenticated? %>
-    </nav>
+  <body class="min-h-screen bg-gray-100 text-gray-900">
+    <header class="border-b border-gray-200 bg-white">
+      <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
+        <%= link_to root_path, class: "flex items-center gap-2 text-lg font-bold tracking-tight text-gray-900 hover:text-gray-700" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+          </svg>
+          Liberty Store
+        <% end %>
+        <div class="flex items-center gap-4 text-sm">
+          <%= link_to "Home", root_path, class: "text-gray-600 hover:text-gray-900" %>
+          <%= link_to "Login", new_session_path, class: "text-gray-600 hover:text-gray-900" unless authenticated? %>
+          <%= button_to "Log out", session_path, method: :delete, class: "text-gray-600 hover:text-gray-900 cursor-pointer" if authenticated? %>
+        </div>
+      </nav>
+    </header>
 
-    <% if notice %><div class="notice"><%= notice %></div><% end %>
-    <% if alert %><div class="alert"><%= alert %></div><% end %>
+    <% if notice || alert %>
+      <div class="mx-auto max-w-7xl px-4 pt-4">
+        <% if notice %>
+          <div class="rounded-md bg-green-50 px-4 py-3 text-sm text-green-800"><%= notice %></div>
+        <% end %>
+        <% if alert %>
+          <div class="rounded-md bg-red-50 px-4 py-3 text-sm text-red-800"><%= alert %></div>
+        <% end %>
+      </div>
+    <% end %>
 
-    <main>
+    <main class="mx-auto max-w-7xl px-4 py-6">
       <%= yield %>
     </main>
   </body>

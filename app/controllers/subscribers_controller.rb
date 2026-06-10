@@ -8,7 +8,7 @@ class SubscribersController < ApplicationController
     if subscriber.save
       redirect_to @product, notice: "You are now subscribed."
     elsif subscriber.errors.where(:email, :taken).any?
-      redirect_to @product, notice: "You are already subscribed."
+      redirect_to @product, alert: "You are already subscribed."
     else
       redirect_to @product, alert: subscriber.errors.full_messages.to_sentence
     end

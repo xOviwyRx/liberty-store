@@ -1,10 +1,24 @@
-<h1><%= t ".title" %></h1>
+<div class="flex items-center justify-between">
+  <h1 class="text-2xl font-bold tracking-tight"><%= t ".title" %></h1>
+  <%= link_to "New product", new_product_path, class: "rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700" if authenticated? %>
+</div>
 
-<%= link_to "New product", new_product_path if authenticated? %>
-<div id="products">
+<div id="products" class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
   <% @products.each do |product| %>
-    <div>
-      <%= link_to product.name, product %>
-    </div>
+    <%= link_to product, class: "group overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition hover:shadow-md" do %>
+      <% if product.featured_image.attached? %>
+        <%= image_tag product.featured_image, class: "aspect-square w-full object-cover" %>
+      <% else %>
+        <div class="flex aspect-square w-full items-center justify-center border-b border-gray-100 bg-white text-sm text-gray-400">No image</div>
+      <% end %>
+      <div class="p-4">
+        <h2 class="font-medium group-hover:underline"><%= product.name %></h2>
+        <% if product.inventory_count > 0 %>
+          <span class="mt-1 inline-block rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-800">In stock</span>
+        <% else %>
+          <span class="mt-1 inline-block rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600">Out of stock</span>
+        <% end %>
+      </div>
+    <% end %>
   <% end %>
 </div>
