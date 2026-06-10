@@ -1,6 +1,21 @@
 # Omakase Ruby styling for Rails
 inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 
+# RSpec-specific cops for the spec/ directory
+plugins:
+  - rubocop-rspec
+
+# A request spec verifies one behavior from several angles (record, status,
+# flash) — re-running the request per assertion buys nothing.
+RSpec/MultipleExpectations:
+  Max: 3
+
+RSpec/ExampleLength:
+  Max: 10
+
+RSpec/IncludeExamples: # new in 3.6
+  Enabled: true
+
 # Overwrite or add rules to create your own house style
 #
 # # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
