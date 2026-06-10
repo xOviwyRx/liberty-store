@@ -3,8 +3,11 @@ class UnsubscribesController < ApplicationController
   before_action :set_subscriber
 
   def show
-    @subscriber&.destroy
-    redirect_to root_path, notice: "Unsubscribed successfully"
+    if @subscriber&.destroy
+      redirect_to root_path, notice: "Unsubscribed successfully"
+    else
+      redirect_to root_path, alert: "Already unsubscribed"
+    end
   end
 
   def set_subscriber
