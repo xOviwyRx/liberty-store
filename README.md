@@ -47,7 +47,8 @@ A modern e-commerce store with a fast, reactive interface. Browse a product cata
 - Solid Cable (WebSockets)
 
 ### Testing & Code Quality
-- Minitest (model, controller, mailer)
+- RSpec
+- FactoryBot
 - RuboCop (Rails Omakase)
 - Brakeman
 
@@ -130,7 +131,7 @@ English and Spanish translations ship with the app.
 ### Code Quality & Testing
 
 ```bash
-bin/rails test     # model, controller, and mailer tests
+bundle exec rspec  # model and request specs
 bin/rubocop        # Rails Omakase style
 bin/brakeman       # static security analysis
 ```
