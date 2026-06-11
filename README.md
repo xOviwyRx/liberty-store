@@ -2,6 +2,8 @@
 
 A modern e-commerce store with a fast, reactive interface. Browse a product catalog with rich-text descriptions and images, subscribe to out-of-stock items and get notified when they return, add products to a cart, and see stock update in real time.
 
+![Liberty Store product catalog](docs/products_screenshot.png)
+
 ## Table of Contents
 
 - [Tech Stack](#tech-stack)
@@ -99,14 +101,15 @@ English and Spanish translations ship with the app.
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/xOviwyRx/<repo>.git
-   cd store
+   git clone https://github.com/xOviwyRx/liberty-store.git
+   cd liberty-store
    ```
 
 2. **Install dependencies**
    ```bash
-   # The pg gem needs the PostgreSQL client headers (Debian/Ubuntu):
-   sudo apt-get install -y libpq-dev
+   # System packages (Debian/Ubuntu): PostgreSQL client headers for the pg gem,
+   # and libvips for Active Storage image variants
+   sudo apt-get install -y libpq-dev libvips42t64
    bundle install
    ```
 
@@ -152,7 +155,7 @@ Configure SMTP for outgoing email in `config/environments/production.rb`.
 
 - [ ] Shopping cart with live Turbo Stream updates
 - [ ] Live stock status via Turbo Stream broadcasting
-- [ ] Product search and filtering with Turbo Frames
+- [ ] Product search, filtering, and pagination with Turbo Frames
 - [ ] Orders and checkout
 - [ ] GitHub Actions CI
 - [ ] Deploy live
