@@ -12,10 +12,10 @@ if Rails.env.development?
     user.password_confirmation = admin_password
   end
   products = [
-    { name: "Aeron Chair",         inventory_count: 12, description: "Ergonomic office chair with a breathable mesh back." },
-    { name: "Standing Desk",       inventory_count: 5,  description: "Height-adjustable desk for sitting or standing." },
-    { name: "Mechanical Keyboard", inventory_count: 0,  description: "Tactile keyboard with hot-swappable switches." },
-    { name: "4K Studio Monitor",   inventory_count: 8,  description: "27-inch 4K display with accurate color." }
+    { name: "Aerolux Mesh Office Chair",     inventory_count: 12, description: "Ergonomic office chair with a breathable mesh back." },
+    { name: "Northwind Standing Desk",       inventory_count: 5,  description: "Height-adjustable desk for sitting or standing." },
+    { name: "Keytron Mechanical Keyboard",   inventory_count: 0,  description: "Tactile keyboard with hot-swappable switches." },
+    { name: "Lumina 34\" Ultrawide Curved Monitor", inventory_count: 8,  description: "34-inch curved ultrawide display with accurate color." }
   ]
 
   products.each do |attrs|
