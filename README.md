@@ -162,7 +162,7 @@ Configure SMTP for outgoing email in `config/environments/production.rb`.
 - [ ] Live stock status via Turbo Stream broadcasting
 - [ ] Product search, filtering, and pagination with Turbo Frames
 - [ ] Orders and checkout
-- [ ] GitHub Actions CI
+- [ ] Dark mode with system theme support
 - [ ] Deploy live
 
 ## License
