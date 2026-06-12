@@ -86,4 +86,5 @@ jobs:
           DB_PASSWORD: postgres
         run: |
           bin/rails db:test:prepare
+          bin/rails tailwindcss:build
           bundle exec rspec
