@@ -10,9 +10,15 @@ class CartItemsController < ApplicationController
     item.quantity = item.quantity.to_i + 1
 
     if item.save
-      redirect_back_or_to product, notice: "Added to cart."
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_back_or_to product }
+      end
     else
-      redirect_back_or_to product, alert: item.errors.full_messages.to_sentence
+      respond_to do |format|
+        format.turbo_stream { flash.now[:alert] = item.errors.full_messages.to_sentence }
+        format.html { redirect_back_or_to product, alert: item.errors.full_messages.to_sentence }
+      end
     end
   end
 
@@ -20,12 +26,20 @@ class CartItemsController < ApplicationController
     quantity = cart_item_params[:quantity].to_i
 
     @cart_item.update!(quantity: quantity) if quantity >= 1
-    redirect_to cart_path
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to cart_path }
+    end
   end
 
   def destroy
     @cart_item.destroy
-    redirect_to cart_path, notice: "Removed from cart."
+
+    respond_to do |format|
+      format.turbo_stream { redirect_to cart_path if current_cart.cart_items.none? }
+      format.html { redirect_to cart_path }
+    end
   end
 
   private

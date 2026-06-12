@@ -8,8 +8,6 @@ RSpec.describe "CartItems", type: :request do
       expect {
         post cart_items_path, params: { product_id: product.id }
       }.to change(CartItem, :count).by(1)
-
-      expect(flash[:notice]).to eq("Added to cart.")
     end
 
     it "increments quantity when the product is already in the cart" do
