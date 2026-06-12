@@ -80,9 +80,14 @@ When a product is out of stock, visitors can subscribe to be notified when it re
 
 ### Shopping Cart
 
-> **(in progress)**
+A guest cart that updates live as you shop.
 
-Add products to a cart and check out, with the cart updating live as you shop — the nav badge and cart panel update in a single response, without a full page reload.
+- Add products from the catalog or the product page; the nav badge ticks instantly via Turbo Streams.
+- Change quantities and remove items on the cart page; the row, line total, cart total, and badge all update in place.
+- The cart persists in a signed, long-lived cookie backed by a database record.
+- Every action falls back to a standard redirect when JavaScript is unavailable.
+
+![Cart updating live without page reloads](docs/cart_animation.gif)
 
 ### Live Stock Updates
 
@@ -153,7 +158,7 @@ Configure SMTP for outgoing email in `config/environments/production.rb`.
 
 ## Roadmap
 
-- [ ] Shopping cart with live Turbo Stream updates
+- [x] Shopping cart with live Turbo Stream updates
 - [ ] Live stock status via Turbo Stream broadcasting
 - [ ] Product search, filtering, and pagination with Turbo Frames
 - [ ] Orders and checkout
