@@ -34,6 +34,12 @@
         <% end %>
         <div class="flex items-center gap-4 text-sm">
           <%= link_to "Home", root_path, class: "text-gray-600 hover:text-gray-900" %>
+          <%= link_to cart_path, class: "flex items-center gap-1 text-gray-600 hover:text-gray-900" do %>
+            Cart
+            <span id="cart_count" class="rounded-full bg-gray-900 px-1.5 text-xs font-medium text-white <%= "hidden" if current_cart.item_count.zero? %>">
+              <%= current_cart.item_count %>
+            </span>
+          <% end %>
           <%= link_to "Login", new_session_path, class: "text-gray-600 hover:text-gray-900" unless authenticated? %>
           <%= button_to "Log out", session_path, method: :delete, class: "text-gray-600 hover:text-gray-900 cursor-pointer" if authenticated? %>
         </div>
