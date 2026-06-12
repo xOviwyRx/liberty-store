@@ -12,15 +12,16 @@ if Rails.env.development?
     user.password_confirmation = admin_password
   end
   products = [
-    { name: "Aerolux Mesh Office Chair",     inventory_count: 12, description: "Ergonomic office chair with a breathable mesh back." },
-    { name: "Northwind Standing Desk",       inventory_count: 5,  description: "Height-adjustable desk for sitting or standing." },
-    { name: "Keytron Mechanical Keyboard",   inventory_count: 0,  description: "Tactile keyboard with hot-swappable switches." },
-    { name: "Lumina 34\" Ultrawide Curved Monitor", inventory_count: 8,  description: "34-inch curved ultrawide display with accurate color." }
+    { name: "Aerolux Mesh Office Chair",     inventory_count: 12, price: 289.00, description: "Ergonomic office chair with a breathable mesh back." },
+    { name: "Northwind Standing Desk",       inventory_count: 5,  price: 449.00, description: "Height-adjustable desk for sitting or standing." },
+    { name: "Keytron Mechanical Keyboard",   inventory_count: 0,  price: 119.00, description: "Tactile keyboard with hot-swappable switches." },
+    { name: "Lumina 34\" Ultrawide Curved Monitor", inventory_count: 8, price: 549.00, description: "34-inch curved ultrawide display with accurate color." }
   ]
 
   products.each do |attrs|
     Product.find_or_create_by!(name: attrs[:name]) do |product|
       product.inventory_count = attrs[:inventory_count]
+      product.price           = attrs[:price]
       product.description     = attrs[:description]
     end
   end

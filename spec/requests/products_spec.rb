@@ -24,13 +24,13 @@ RSpec.describe "Products", type: :request do
 
       it "creates a product" do
         expect {
-          post products_path, params: { product: { name: "Lamp", inventory_count: 3 } }
+          post products_path, params: { product: { name: "Lamp", inventory_count: 3, price: 19.99 } }
         }.to change(Product, :count).by(1)
       end
 
       it "does not create a product without a name" do
         expect {
-          post products_path, params: { product: { name: "", inventory_count: 3 } }
+          post products_path, params: { product: { name: "", inventory_count: 3, price: 19.99 } }
         }.not_to change(Product, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
