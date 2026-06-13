@@ -12,7 +12,6 @@ A modern e-commerce store with a fast, reactive interface. Browse a product cata
    - [Back-in-Stock Alerts](#back-in-stock-alerts)
    - [Shopping Cart](#shopping-cart)
    - [Live Stock Updates](#live-stock-updates)
-   - [Internationalization](#internationalization)
 - [Getting Started](#getting-started)
 - [Development](#development)
    - [Code Quality & Testing](#code-quality--testing)
@@ -98,13 +97,6 @@ Stock status updates in real time, pushed over WebSockets.
 
 ![Stock updating live across windows over WebSockets](docs/live_stock_demo.gif)
 
-### Internationalization
-
-English and Spanish translations ship with the app.
-
-- Append `?locale=es` to any URL to switch to Spanish.
-- Translations are organized in `config/locales`.
-
 ## Getting Started
 
 1. **Clone the repository**
@@ -165,6 +157,7 @@ Configure SMTP for outgoing email in `config/environments/production.rb`.
 - [x] Live stock status via Turbo Stream broadcasting
 - [ ] Product search, filtering, and pagination with Turbo Frames
 - [ ] Orders and checkout
+- [ ] Full internationalization (English + Spanish)
 - [ ] Dark mode with system theme support
 - [ ] Deploy live
 
