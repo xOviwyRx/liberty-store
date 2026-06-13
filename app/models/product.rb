@@ -1,5 +1,6 @@
 class Product < ApplicationRecord
   include Notifications
+  include Broadcasts
 
   has_one_attached :featured_image
   has_rich_text :description

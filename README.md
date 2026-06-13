@@ -91,9 +91,10 @@ A guest cart that updates live as you shop.
 
 ### Live Stock Updates
 
-> **(in progress)**
+Stock status updates in real time, pushed over WebSockets.
 
-Stock status updates in real time. When an item is restocked, it becomes available to everyone currently viewing it without a page refresh.
+- When an admin changes inventory, the change broadcasts over Action Cable to everyone viewing the product page or the catalog.
+- The stock partial flips between "Out of stock / notify me" and "in stock / add to cart" in place.
 
 ### Internationalization
 
@@ -159,7 +160,7 @@ Configure SMTP for outgoing email in `config/environments/production.rb`.
 ## Roadmap
 
 - [x] Shopping cart with live Turbo Stream updates
-- [ ] Live stock status via Turbo Stream broadcasting
+- [x] Live stock status via Turbo Stream broadcasting
 - [ ] Product search, filtering, and pagination with Turbo Frames
 - [ ] Orders and checkout
 - [ ] Dark mode with system theme support
