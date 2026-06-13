@@ -96,6 +96,8 @@ Stock status updates in real time, pushed over WebSockets.
 - When an admin changes inventory, the change broadcasts over Action Cable to everyone viewing the product page or the catalog.
 - The stock partial flips between "Out of stock / notify me" and "in stock / add to cart" in place.
 
+![Stock updating live across windows over WebSockets](docs/live_stock_demo.gif)
+
 ### Internationalization
 
 English and Spanish translations ship with the app.
