@@ -1,0 +1,61 @@
+<div>
+  <%= link_to "← Back to cart", cart_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
+
+  <h1 class="mt-4 text-2xl font-bold tracking-tight">Checkout</h1>
+
+  <div class="mt-6 grid items-start gap-6 lg:grid-cols-5">
+    <div class="rounded-lg border border-gray-200 bg-white p-6 lg:col-span-2">
+      <%= form_with model: @checkout, url: checkout_path, scope: :checkout, class: "space-y-4" do |form| %>
+        <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-500">Your details</h2>
+
+        <% if @checkout.errors.any? %>
+          <div class="rounded-md bg-red-50 px-4 py-3 text-sm text-red-800">
+            <ul class="list-disc space-y-1 pl-4">
+              <% @checkout.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div>
+          <%= form.label :name, class: "block text-sm font-medium text-gray-700" %>
+          <%= form.text_field :name, class: "mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-gray-500 focus:outline-none" %>
+        </div>
+
+        <div>
+          <%= form.label :email, class: "block text-sm font-medium text-gray-700" %>
+          <%= form.email_field :email, class: "mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-gray-500 focus:outline-none" %>
+        </div>
+
+        <div class="flex justify-start pt-4">
+          <%= form.submit "Place order", class: "rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 cursor-pointer" %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="rounded-lg border border-gray-200 bg-white p-6 lg:col-span-3">
+      <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-500">Order summary</h2>
+
+      <ul class="mt-4 divide-y divide-gray-100">
+        <% @cart_items.each do |item| %>
+          <li class="flex items-center gap-4 py-3">
+            <% if item.product.featured_image.attached? %>
+              <%= image_tag item.product.featured_image.variant(resize_to_limit: [ 96, 96 ]), class: "h-12 w-12 rounded border border-gray-100 object-cover" %>
+            <% end %>
+            <div class="grow">
+              <p class="font-medium"><%= item.product.name %></p>
+              <p class="text-sm text-gray-500"><%= number_to_currency(item.product.price) %> × <%= item.quantity %></p>
+            </div>
+            <p class="font-medium"><%= number_to_currency(item.product.price * item.quantity) %></p>
+          </li>
+        <% end %>
+      </ul>
+
+      <div class="mt-4 flex items-center justify-between border-t border-gray-200 pt-4">
+        <p class="font-medium">Total</p>
+        <p class="text-lg font-semibold"><%= number_to_currency(current_cart.total) %></p>
+      </div>
+    </div>
+  </div>
+</div>

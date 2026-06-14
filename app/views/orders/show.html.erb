@@ -1,0 +1,27 @@
+<div class="mx-auto max-w-2xl">
+  <div class="rounded-lg border border-gray-200 bg-white p-6 text-center">
+    <h1 class="text-2xl font-bold tracking-tight">Thank you, <%= @order.name %>!</h1>
+    <p class="mt-2 text-gray-600">Your order has been placed.</p>
+  </div>
+
+  <div class="mt-6 rounded-lg border border-gray-200 bg-white">
+    <ul class="divide-y divide-gray-100">
+      <% @order_items.each do |item| %>
+        <li class="flex items-center justify-between p-4">
+          <div>
+            <p class="font-medium"><%= item.product.name %></p>
+            <p class="text-sm text-gray-500"><%= number_to_currency(item.unit_price) %> × <%= item.quantity %></p>
+          </div>
+          <p class="font-medium"><%= number_to_currency(item.unit_price * item.quantity) %></p>
+        </li>
+      <% end %>
+    </ul>
+
+    <div class="flex items-center justify-between border-t border-gray-200 p-4">
+      <p class="font-medium">Total</p>
+      <p class="text-lg font-semibold"><%= number_to_currency(@order.total) %></p>
+    </div>
+  </div>
+
+  <%= link_to "Continue shopping", products_path, class: "mt-6 inline-block text-sm font-medium underline hover:text-gray-600" %>
+</div>
