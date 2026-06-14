@@ -18,4 +18,8 @@
       <p id="cart_total" class="text-lg font-semibold"><%= number_to_currency(current_cart.total) %></p>
     </div>
   </div>
+
+  <div class="mt-4 flex justify-end">
+    <%= link_to "Checkout", new_checkout_path, class: "rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700" %>
+  </div>
 <% end %>

@@ -12,6 +12,7 @@ A modern e-commerce store with a fast, reactive interface. Browse a product cata
    - [Back-in-Stock Alerts](#back-in-stock-alerts)
    - [Shopping Cart](#shopping-cart)
    - [Live Stock Updates](#live-stock-updates)
+   - [Checkout](#checkout)
 - [Getting Started](#getting-started)
 - [Development](#development)
    - [Code Quality & Testing](#code-quality--testing)
@@ -97,6 +98,15 @@ Stock status updates in real time, pushed over WebSockets.
 
 ![Stock updating live across windows over WebSockets](docs/live_stock_demo.gif)
 
+### Checkout
+
+Guest checkout that turns a cart into an immutable order.
+
+- Place an order with a name and email.
+- Each line snapshots the product's price at purchase time, so the order stays an accurate record even if prices change later.
+
+![Placing an order through guest checkout](docs/checkout_demo.gif)
+
 ## Getting Started
 
 1. **Clone the repository**
@@ -156,7 +166,8 @@ Configure SMTP for outgoing email in `config/environments/production.rb`.
 - [x] Shopping cart with live Turbo Stream updates
 - [x] Live stock status via Turbo Stream broadcasting
 - [ ] Product search, filtering, and pagination with Turbo Frames
-- [ ] Orders and checkout
+- [ ] Slide-out cart drawer that opens on add-to-cart (Stimulus + Turbo Streams)
+- [x] Orders and checkout
 - [ ] Full internationalization (English + Spanish)
 - [ ] Dark mode with system theme support
 - [ ] Deploy live
