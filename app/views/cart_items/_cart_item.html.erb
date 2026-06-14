@@ -14,7 +14,8 @@
     <span class="w-8 text-center text-sm"><%= cart_item.quantity %></span>
     <%= button_to "+", cart_item_path(cart_item), method: :patch,
           params: { cart_item: { quantity: cart_item.quantity + 1 } },
-          class: "h-7 w-7 rounded border border-gray-300 text-sm hover:bg-gray-50 cursor-pointer" %>
+          disabled: cart_item.quantity >= cart_item.product.inventory_count,
+          class: "h-7 w-7 rounded border border-gray-300 text-sm hover:bg-gray-50 cursor-pointer disabled:cursor-not-allowed disabled:text-gray-300 disabled:hover:bg-white" %>
   </div>
   <p class="w-24 text-right font-medium"><%= number_to_currency(cart_item.product.price * cart_item.quantity) %></p>
   <%= button_to "✕", cart_item_path(cart_item), method: :delete,

@@ -1,3 +1,4 @@
 <%= turbo_stream.replace dom_id(@cart_item), partial: "cart_items/cart_item", locals: { cart_item: @cart_item } %>
 <%= turbo_stream.update "cart_total", number_to_currency(current_cart.total) %>
 <%= turbo_stream.replace "cart_count", partial: "layouts/cart_count" %>
+<%= turbo_stream.update "flash", partial: "layouts/flash" %>

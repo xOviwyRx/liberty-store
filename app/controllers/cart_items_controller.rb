@@ -25,7 +25,7 @@ class CartItemsController < ApplicationController
   def update
     quantity = cart_item_params[:quantity].to_i
 
-    @cart_item.update!(quantity: quantity) if quantity >= 1
+    flash.now[:alert] = @cart_item.errors.full_messages.to_sentence unless @cart_item.update(quantity: quantity)
 
     respond_to do |format|
       format.turbo_stream
