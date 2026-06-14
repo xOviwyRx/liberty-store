@@ -27,12 +27,16 @@
 
   <div>
     <%= form.label :price, class: "block text-sm font-medium text-gray-700" %>
-    <%= form.number_field :price, step: 0.01, min: 0, class: "mt-1 w-32 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-gray-500 focus:outline-none" %>
+    <%= form.number_field :price, step: 0.01, min: 0, max: Product::PRICE_LIMIT,
+          data: { controller: "numeric-input", action: "input->numeric-input#clamp change->numeric-input#normalize" },
+          class: "mt-1 w-32 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-gray-500 focus:outline-none" %>
   </div>
 
   <div>
     <%= form.label :inventory_count, class: "block text-sm font-medium text-gray-700" %>
-    <%= form.number_field :inventory_count, class: "mt-1 w-32 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-gray-500 focus:outline-none" %>
+    <%= form.number_field :inventory_count, step: 1, min: 0, max: Product::INVENTORY_LIMIT,
+          data: { controller: "numeric-input", action: "input->numeric-input#clamp change->numeric-input#normalize" },
+          class: "mt-1 w-32 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-gray-500 focus:outline-none" %>
   </div>
 
   <div class="flex items-center gap-3">
