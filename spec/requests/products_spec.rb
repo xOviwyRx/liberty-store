@@ -20,6 +20,16 @@ RSpec.describe "Products", type: :request do
       expect(response.body).to include(lamp.name)
       expect(response.body).not_to include(chair.name)
     end
+
+    it "filters the catalog to in-stock products" do
+      available = create(:product, name: "Blue Lamp", inventory_count: 3)
+      sold_out = create(:product, name: "Red Chair", inventory_count: 0)
+
+      get products_path(in_stock: "1")
+
+      expect(response.body).to include(available.name)
+      expect(response.body).not_to include(sold_out.name)
+    end
   end
 
   describe "POST /products" do

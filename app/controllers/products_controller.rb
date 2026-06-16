@@ -3,7 +3,10 @@ class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update destroy ]
 
   def index
-    @products = Product.search(params[:q])
+    @query    = params[:q]
+    @in_stock = params[:in_stock].present?
+    @products = Product.search(@query)
+    @products = @products.in_stock if @in_stock
   end
 
   def show

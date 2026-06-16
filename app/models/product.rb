@@ -17,4 +17,6 @@ class Product < ApplicationRecord
 
     where("name ILIKE ?", "%#{sanitize_sql_like(query)}%")
   end
+
+  scope :in_stock, -> { where("inventory_count > 0") }
 end

@@ -1,18 +1,20 @@
 <%= turbo_stream_from "products" %>
 
-<div class="flex items-center justify-between gap-4">
-  <h1 class="text-2xl font-bold tracking-tight"><%= t ".title" %></h1>
-
+<%= form_with url: products_path, method: :get, class: "flex items-center justify-between gap-4",
+      data: { turbo_frame: "products", turbo_action: "replace", controller: "search" } do |form| %>
   <div class="flex items-center gap-3">
-    <%= form_with url: products_path, method: :get,
-          data: { turbo_frame: "products", turbo_action: "replace", controller: "search" } do |form| %>
-      <%= form.search_field :q, value: params[:q], placeholder: "Search products…", autocomplete: "off",
-            data: { action: "input->search#submit" },
-            class: "w-44 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-gray-500 focus:outline-none sm:w-64" %>
-    <% end %>
-    <%= link_to "New product", new_product_path, class: "whitespace-nowrap rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700" if authenticated? %>
+    <%= form.search_field :q, value: @query, placeholder: "Search products…", autocomplete: "off",
+          data: { action: "input->search#submit" },
+          class: "w-44 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-gray-500 focus:outline-none sm:w-64" %>
+    <label class="flex items-center gap-2 whitespace-nowrap text-sm text-gray-700">
+      <%= form.check_box :in_stock, include_hidden: false, checked: @in_stock,
+            data: { action: "change->search#submit" },
+            class: "rounded border-gray-300" %>
+      In stock
+    </label>
   </div>
-</div>
+  <%= link_to "Add product", new_product_path, class: "whitespace-nowrap rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700" if authenticated? %>
+<% end %>
 
 <%= turbo_frame_tag "products" do %>
   <% if @products.any? %>
