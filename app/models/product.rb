@@ -11,4 +11,10 @@ class Product < ApplicationRecord
   validates :name, presence: true
   validates :inventory_count, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: INVENTORY_LIMIT }
   validates :price, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: PRICE_LIMIT }
+
+  def self.search(query)
+    return all if query.blank?
+
+    where("name ILIKE ?", "%#{sanitize_sql_like(query)}%")
+  end
 end

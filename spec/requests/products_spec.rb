@@ -10,6 +10,16 @@ RSpec.describe "Products", type: :request do
       expect(response).to have_http_status(:ok)
       expect(response.body).to include(product.name)
     end
+
+    it "filters the catalog by the search query" do
+      lamp = create(:product, name: "Blue Lamp")
+      chair = create(:product, name: "Red Chair")
+
+      get products_path(q: "lamp")
+
+      expect(response.body).to include(lamp.name)
+      expect(response.body).not_to include(chair.name)
+    end
   end
 
   describe "POST /products" do

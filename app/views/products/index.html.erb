@@ -1,25 +1,40 @@
 <%= turbo_stream_from "products" %>
 
-<div class="flex items-center justify-between">
+<div class="flex items-center justify-between gap-4">
   <h1 class="text-2xl font-bold tracking-tight"><%= t ".title" %></h1>
-  <%= link_to "New product", new_product_path, class: "rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700" if authenticated? %>
+
+  <div class="flex items-center gap-3">
+    <%= form_with url: products_path, method: :get,
+          data: { turbo_frame: "products", turbo_action: "replace", controller: "search" } do |form| %>
+      <%= form.search_field :q, value: params[:q], placeholder: "Search products…", autocomplete: "off",
+            data: { action: "input->search#submit" },
+            class: "w-44 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-gray-500 focus:outline-none sm:w-64" %>
+    <% end %>
+    <%= link_to "New product", new_product_path, class: "whitespace-nowrap rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700" if authenticated? %>
+  </div>
 </div>
 
-<div id="products" class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-  <% @products.each do |product| %>
-    <div class="flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition hover:shadow-md">
-      <%= link_to product do %>
-        <% if product.featured_image.attached? %>
-          <%= image_tag product.featured_image.variant(resize_to_limit: [ 800, 600 ]), class: "aspect-[4/3] w-full object-cover" %>
-        <% else %>
-          <div class="flex aspect-[4/3] w-full items-center justify-center border-b border-gray-100 bg-white text-sm text-gray-400">No image</div>
-        <% end %>
+<%= turbo_frame_tag "products" do %>
+  <% if @products.any? %>
+    <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <% @products.each do |product| %>
+        <div class="flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition hover:shadow-md">
+          <%= link_to product do %>
+            <% if product.featured_image.attached? %>
+              <%= image_tag product.featured_image.variant(resize_to_limit: [ 800, 600 ]), class: "aspect-[4/3] w-full object-cover" %>
+            <% else %>
+              <div class="flex aspect-[4/3] w-full items-center justify-center border-b border-gray-100 bg-white text-sm text-gray-400">No image</div>
+            <% end %>
+          <% end %>
+          <div class="flex grow flex-col p-4">
+            <h2 class="font-medium"><%= link_to product.name, product, class: "hover:underline" %></h2>
+            <p class="mt-1 text-lg font-semibold"><%= number_to_currency(product.price) %></p>
+            <%= render "card_actions", product: product %>
+          </div>
+        </div>
       <% end %>
-      <div class="flex grow flex-col p-4">
-        <h2 class="font-medium"><%= link_to product.name, product, class: "hover:underline" %></h2>
-        <p class="mt-1 text-lg font-semibold"><%= number_to_currency(product.price) %></p>
-        <%= render "card_actions", product: product %>
-      </div>
     </div>
+  <% else %>
+    <p class="mt-6 text-gray-600">No products found.</p>
   <% end %>
-</div>
+<% end %>
