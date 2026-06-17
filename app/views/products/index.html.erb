@@ -71,6 +71,12 @@
       <% else %>
         <p class="text-gray-600">No products found.</p>
       <% end %>
+
+      <% if @pagy.pages > 1 %>
+        <div class="mt-8 flex justify-center text-sm">
+          <%== pagy_nav(@pagy) %>
+        </div>
+      <% end %>
     <% end %>
   </div>
 </div>

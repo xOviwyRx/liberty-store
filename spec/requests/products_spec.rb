@@ -60,6 +60,15 @@ RSpec.describe "Products", type: :request do
 
       expect(response.body.index(available.name)).to be < response.body.index(sold_out.name)
     end
+
+    it "limits each page to the catalog page size" do
+      create_list(:product, 25)
+
+      get products_path
+
+      shown = response.body.scan(%r{/products/(\d+)}).flatten.uniq
+      expect(shown.size).to eq(24)
+    end
   end
 
   describe "POST /products" do

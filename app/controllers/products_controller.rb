@@ -8,6 +8,7 @@ class ProductsController < ApplicationController
     @products = @products.priced_from(filter_params[:min_price]) if filter_params[:min_price].present?
     @products = @products.priced_up_to(filter_params[:max_price]) if filter_params[:max_price].present?
     @products = @products.sorted(filter_params[:sort])
+    @pagy, @products = pagy(@products)
   end
 
   def show
