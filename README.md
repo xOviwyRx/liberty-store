@@ -1,6 +1,6 @@
 # Liberty Store
 
-A modern e-commerce store with a fast, reactive interface. Browse a product catalog with rich-text descriptions and images, subscribe to out-of-stock items and get notified when they return, add products to a cart, check out as a guest, and see stock update in real time.
+A modern e-commerce store with a fast, reactive interface. Browse the catalog, add products to your cart, check out as a guest, and subscribe to out-of-stock items.
 
 ![Liberty Store product catalog](docs/products_screenshot.png)
 
@@ -9,6 +9,7 @@ A modern e-commerce store with a fast, reactive interface. Browse a product cata
 - [Tech Stack](#tech-stack)
 - [Features](#features)
    - [Catalog & Product Management](#catalog--product-management)
+   - [Search, Filtering & Sorting](#search-filtering--sorting)
    - [Back-in-Stock Alerts](#back-in-stock-alerts)
    - [Shopping Cart](#shopping-cart)
    - [Live Stock Updates](#live-stock-updates)
@@ -68,6 +69,16 @@ A public catalog with authenticated management. Each product carries a name, an 
 - Authenticated users can create, edit, and delete products.
 - Descriptions support embedded formatting and media via Action Text.
 - Featured images are uploaded through Active Storage with on-the-fly variants.
+
+### Search, Filtering & Sorting
+
+A sidebar of filters that narrows the catalog live.
+
+- Live search by name, debounced and submitted as you type (Stimulus).
+- In-stock filter to hide sold-out products, and a price range (min/max) to bracket results.
+- Sorting by price (low→high, high→low) or name; in-stock products always lead the list regardless of sort.
+- Pagination (Pagy) keeps each page to 24 products, with prev/next hidden when there's nowhere to go.
+- All filters combine into a single query and re-render only the catalog grid via a Turbo Frame; the URL updates in place so any filtered view is shareable and back-button friendly.
 
 ### Back-in-Stock Alerts
 
@@ -165,7 +176,7 @@ Configure SMTP for outgoing email in `config/environments/production.rb`.
 
 - [x] Shopping cart with live Turbo Stream updates
 - [x] Live stock status via Turbo Stream broadcasting
-- [ ] Product search, filtering, and pagination with Turbo Frames
+- [x] Product search, filtering, and pagination with Turbo Frames
 - [ ] Slide-out cart drawer that opens on add-to-cart (Stimulus + Turbo Streams)
 - [x] Orders and checkout
 - [ ] Full internationalization (English + Spanish)
