@@ -9,7 +9,7 @@
 <section class="mt-4 grid grid-cols-1 gap-8 rounded-lg border border-gray-200 bg-white p-6 md:grid-cols-2">
   <div>
     <% if @product.featured_image.attached? %>
-      <%= image_tag @product.featured_image.variant(resize_to_limit: [ 1200, 900 ]), class: "aspect-[4/3] w-full rounded-lg border border-gray-200 bg-white object-contain p-6" %>
+      <%= image_tag @product.featured_image.variant(resize_to_limit: [ 1200, 900 ]), decoding: "async", class: "aspect-[4/3] w-full rounded-lg border border-gray-200 bg-white object-contain p-6" %>
     <% else %>
       <div class="flex aspect-[4/3] w-full items-center justify-center rounded-lg border border-gray-200 bg-white text-sm text-gray-400">No image</div>
     <% end %>

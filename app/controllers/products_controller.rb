@@ -7,7 +7,7 @@ class ProductsController < ApplicationController
     @products = @products.in_stock if filter_params[:in_stock]
     @products = @products.priced_from(filter_params[:min_price]) if filter_params[:min_price].present?
     @products = @products.priced_up_to(filter_params[:max_price]) if filter_params[:max_price].present?
-    @products = @products.sorted(filter_params[:sort])
+    @products = @products.sorted(filter_params[:sort]).with_attached_featured_image
     @pagy, @products = pagy(@products)
   end
 

@@ -23,5 +23,10 @@ module Store
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Serve Active Storage images through the app (one request, long-lived
+    # Cache-Control) instead of the default redirect (two requests, uncacheable),
+    # so catalog images load once and come from the browser cache afterward.
+    config.active_storage.resolve_model_to_route = :rails_storage_proxy
   end
 end

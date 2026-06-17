@@ -55,7 +55,7 @@
             <div class="flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition hover:shadow-md">
               <%= link_to product do %>
                 <% if product.featured_image.attached? %>
-                  <%= image_tag product.featured_image.variant(resize_to_limit: [ 800, 600 ]), class: "aspect-[4/3] w-full border-b border-gray-100 bg-gray-50 object-cover" %>
+                  <%= image_tag product.featured_image.variant(resize_to_limit: [ 800, 600 ]), loading: "lazy", decoding: "async", class: "aspect-[4/3] w-full border-b border-gray-100 bg-gray-50 object-cover" %>
                 <% else %>
                   <div class="flex aspect-[4/3] w-full items-center justify-center border-b border-gray-100 bg-gray-50 text-sm text-gray-400">No image</div>
                 <% end %>
