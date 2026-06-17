@@ -4,28 +4,38 @@
   <aside class="lg:w-56 lg:shrink-0">
     <%= form_with url: products_path, method: :get, class: "flex flex-col gap-5",
           data: { turbo_frame: "products", turbo_action: "replace", controller: "search" } do |form| %>
-      <%= form.search_field :q, value: @query, placeholder: "Search products…", autocomplete: "off",
+      <%= form.search_field :q, value: @filter_params[:query], placeholder: "Search products…", autocomplete: "off",
             data: { action: "input->search#submit" },
+            class: "w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-gray-500 focus:outline-none" %>
+
+      <%= form.select :sort,
+            options_for_select([
+              [ "Price: low to high", "price_asc" ],
+              [ "Price: high to low", "price_desc" ],
+              [ "Name: A–Z", "name" ]
+            ], @filter_params[:sort]),
+            { prompt: "Sort" },
+            data: { action: "change->search#submit" },
             class: "w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-gray-500 focus:outline-none" %>
 
       <div class="flex items-center gap-2">
         <div class="relative grow">
           <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2.5 text-sm text-gray-400">$</span>
-          <%= form.number_field :min_price, value: @min_price, placeholder: "Min", min: 0, step: 0.01,
+          <%= form.number_field :min_price, value: @filter_params[:min_price], placeholder: "Min", min: 0, step: 0.01,
                 data: { action: "input->search#submit" },
                 class: "no-spinner w-full rounded-md border border-gray-300 py-2 pl-6 pr-2 text-sm focus:border-gray-500 focus:outline-none" %>
         </div>
         <span class="text-sm text-gray-400">–</span>
         <div class="relative grow">
           <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2.5 text-sm text-gray-400">$</span>
-          <%= form.number_field :max_price, value: @max_price, placeholder: "Max", min: 0, step: 0.01,
+          <%= form.number_field :max_price, value: @filter_params[:max_price], placeholder: "Max", min: 0, step: 0.01,
                 data: { action: "input->search#submit" },
                 class: "no-spinner w-full rounded-md border border-gray-300 py-2 pl-6 pr-2 text-sm focus:border-gray-500 focus:outline-none" %>
         </div>
       </div>
 
       <label class="flex items-center gap-2 text-sm font-medium text-gray-700">
-        <%= form.check_box :in_stock, include_hidden: false, checked: @in_stock,
+        <%= form.check_box :in_stock, include_hidden: false, checked: @filter_params[:in_stock],
               data: { action: "change->search#submit" },
               class: "h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-gray-500" %>
         In stock only

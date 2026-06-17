@@ -3,15 +3,11 @@ class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update destroy ]
 
   def index
-    @query     = params[:q]
-    @in_stock  = params[:in_stock].present?
-    @min_price = params[:min_price]
-    @max_price = params[:max_price]
-
-    @products = Product.search(@query)
-    @products = @products.in_stock if @in_stock
-    @products = @products.priced_from(@min_price) if @min_price.present?
-    @products = @products.priced_up_to(@max_price) if @max_price.present?
+    @products = Product.search(filter_params[:query])
+    @products = @products.in_stock if filter_params[:in_stock]
+    @products = @products.priced_from(filter_params[:min_price]) if filter_params[:min_price].present?
+    @products = @products.priced_up_to(filter_params[:max_price]) if filter_params[:max_price].present?
+    @products = @products.sorted(filter_params[:sort])
   end
 
   def show
@@ -51,7 +47,18 @@ class ProductsController < ApplicationController
   def set_product
     @product = Product.find(params[:id])
   end
+
   def product_params
     params.expect(product: [ :name, :description, :featured_image, :inventory_count, :price ])
+  end
+
+  def filter_params
+    @filter_params ||= {
+      query: params[:q],
+      in_stock: params[:in_stock].present?,
+      min_price: params[:min_price],
+      max_price: params[:max_price],
+      sort: params[:sort]
+    }
   end
 end

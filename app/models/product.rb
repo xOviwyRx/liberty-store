@@ -12,13 +12,25 @@ class Product < ApplicationRecord
   validates :inventory_count, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: INVENTORY_LIMIT }
   validates :price, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: PRICE_LIMIT }
 
+  SORT_OPTIONS = {
+    "newest" => { created_at: :desc },
+    "price_asc" => { price: :asc },
+    "price_desc" => { price: :desc },
+    "name" => { name: :asc }
+  }.freeze
+
   def self.search(query)
     return all if query.blank?
 
     where("name ILIKE ?", "%#{sanitize_sql_like(query)}%")
   end
 
+  def self.sorted(key)
+    in_stock_first.order(SORT_OPTIONS.fetch(key, SORT_OPTIONS["newest"]))
+  end
+
   scope :in_stock, -> { where("inventory_count > 0") }
+  scope :in_stock_first, -> { order(Arel.sql("(inventory_count > 0) DESC")) }
   scope :priced_from, ->(min) { where("price >= ?", min) }
   scope :priced_up_to, ->(max) { where("price <= ?", max) }
 end

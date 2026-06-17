@@ -42,6 +42,24 @@ RSpec.describe "Products", type: :request do
       expect(response.body).not_to include(cheap.name)
       expect(response.body).not_to include(pricey.name)
     end
+
+    it "sorts the catalog by price ascending" do
+      cheap = create(:product, name: "Cheap Lamp", price: 10)
+      pricey = create(:product, name: "Pricey Sofa", price: 100)
+
+      get products_path(sort: "price_asc")
+
+      expect(response.body.index(cheap.name)).to be < response.body.index(pricey.name)
+    end
+
+    it "lists in-stock products before out-of-stock ones" do
+      available = create(:product, name: "Available Chair")
+      sold_out = create(:product, :out_of_stock, name: "Sold Out Lamp")
+
+      get products_path
+
+      expect(response.body.index(available.name)).to be < response.body.index(sold_out.name)
+    end
   end
 
   describe "POST /products" do
