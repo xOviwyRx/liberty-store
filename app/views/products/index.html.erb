@@ -1,42 +1,66 @@
 <%= turbo_stream_from "products" %>
 
-<%= form_with url: products_path, method: :get, class: "flex items-center justify-between gap-4",
-      data: { turbo_frame: "products", turbo_action: "replace", controller: "search" } do |form| %>
-  <div class="flex items-center gap-3">
-    <%= form.search_field :q, value: @query, placeholder: "Search products…", autocomplete: "off",
-          data: { action: "input->search#submit" },
-          class: "w-44 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-gray-500 focus:outline-none sm:w-64" %>
-    <label class="flex items-center gap-2 whitespace-nowrap text-sm text-gray-700">
-      <%= form.check_box :in_stock, include_hidden: false, checked: @in_stock,
-            data: { action: "change->search#submit" },
-            class: "rounded border-gray-300" %>
-      In stock
-    </label>
-  </div>
-  <%= link_to "Add product", new_product_path, class: "whitespace-nowrap rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700" if authenticated? %>
-<% end %>
+<div class="flex flex-col gap-6 lg:flex-row lg:items-start">
+  <aside class="lg:w-56 lg:shrink-0">
+    <%= form_with url: products_path, method: :get, class: "flex flex-col gap-5",
+          data: { turbo_frame: "products", turbo_action: "replace", controller: "search" } do |form| %>
+      <%= form.search_field :q, value: @query, placeholder: "Search products…", autocomplete: "off",
+            data: { action: "input->search#submit" },
+            class: "w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-gray-500 focus:outline-none" %>
 
-<%= turbo_frame_tag "products", target: "_top" do %>
-  <% if @products.any? %>
-    <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      <% @products.each do |product| %>
-        <div class="flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition hover:shadow-md">
-          <%= link_to product do %>
-            <% if product.featured_image.attached? %>
-              <%= image_tag product.featured_image.variant(resize_to_limit: [ 800, 600 ]), class: "aspect-[4/3] w-full object-cover" %>
-            <% else %>
-              <div class="flex aspect-[4/3] w-full items-center justify-center border-b border-gray-100 bg-white text-sm text-gray-400">No image</div>
-            <% end %>
-          <% end %>
-          <div class="flex grow flex-col p-4">
-            <h2 class="font-medium"><%= link_to product.name, product, class: "hover:underline" %></h2>
-            <p class="mt-1 text-lg font-semibold"><%= number_to_currency(product.price) %></p>
-            <%= render "card_actions", product: product %>
-          </div>
+      <div class="flex items-center gap-2">
+        <div class="relative grow">
+          <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2.5 text-sm text-gray-400">$</span>
+          <%= form.number_field :min_price, value: @min_price, placeholder: "Min", min: 0, step: 0.01,
+                data: { action: "input->search#submit" },
+                class: "no-spinner w-full rounded-md border border-gray-300 py-2 pl-6 pr-2 text-sm focus:border-gray-500 focus:outline-none" %>
         </div>
+        <span class="text-sm text-gray-400">–</span>
+        <div class="relative grow">
+          <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2.5 text-sm text-gray-400">$</span>
+          <%= form.number_field :max_price, value: @max_price, placeholder: "Max", min: 0, step: 0.01,
+                data: { action: "input->search#submit" },
+                class: "no-spinner w-full rounded-md border border-gray-300 py-2 pl-6 pr-2 text-sm focus:border-gray-500 focus:outline-none" %>
+        </div>
+      </div>
+
+      <label class="flex items-center gap-2 text-sm font-medium text-gray-700">
+        <%= form.check_box :in_stock, include_hidden: false, checked: @in_stock,
+              data: { action: "change->search#submit" },
+              class: "h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-gray-500" %>
+        In stock only
+      </label>
+    <% end %>
+
+    <% if authenticated? %>
+      <%= link_to "Add product", new_product_path, class: "mt-5 block rounded-md bg-gray-900 px-4 py-2 text-center text-sm font-medium text-white hover:bg-gray-700" %>
+    <% end %>
+  </aside>
+
+  <div class="min-w-0 grow">
+    <%= turbo_frame_tag "products", target: "_top" do %>
+      <% if @products.any? %>
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <% @products.each do |product| %>
+            <div class="flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition hover:shadow-md">
+              <%= link_to product do %>
+                <% if product.featured_image.attached? %>
+                  <%= image_tag product.featured_image.variant(resize_to_limit: [ 800, 600 ]), class: "aspect-[4/3] w-full border-b border-gray-100 bg-gray-50 object-cover" %>
+                <% else %>
+                  <div class="flex aspect-[4/3] w-full items-center justify-center border-b border-gray-100 bg-gray-50 text-sm text-gray-400">No image</div>
+                <% end %>
+              <% end %>
+              <div class="flex grow flex-col p-4">
+                <h2 class="font-semibold text-gray-900"><%= link_to product.name, product, class: "hover:underline" %></h2>
+                <p class="mt-1 text-lg font-semibold"><%= number_to_currency(product.price) %></p>
+                <%= render "card_actions", product: product %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-gray-600">No products found.</p>
       <% end %>
-    </div>
-  <% else %>
-    <p class="mt-6 text-gray-600">No products found.</p>
-  <% end %>
-<% end %>
+    <% end %>
+  </div>
+</div>

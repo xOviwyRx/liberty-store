@@ -3,6 +3,6 @@
     <%= button_to "Add to cart", cart_items_path(product_id: product.id),
           class: "w-full rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 cursor-pointer" %>
   <% else %>
-    <span class="block w-full rounded-md bg-gray-100 px-4 py-2 text-center text-sm font-medium text-gray-400">Out of stock</span>
+    <span class="block w-full py-2 text-center text-sm font-medium uppercase tracking-wide text-gray-400">Out of stock</span>
   <% end %>
 </div>
