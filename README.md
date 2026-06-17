@@ -1,6 +1,6 @@
 # Liberty Store
 
-A modern e-commerce store with a fast, reactive interface. Browse the catalog, add products to your cart, check out as a guest, and subscribe to out-of-stock items.
+An e-commerce store with a fast, reactive interface. Browse the catalog, add products to your cart, check out as a guest, and subscribe to out-of-stock items. Logged-in users can manage the catalog.
 
 ![Liberty Store product catalog](docs/products_screenshot.png)
 
