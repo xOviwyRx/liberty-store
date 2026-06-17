@@ -3,10 +3,15 @@ class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update destroy ]
 
   def index
-    @query    = params[:q]
-    @in_stock = params[:in_stock].present?
+    @query     = params[:q]
+    @in_stock  = params[:in_stock].present?
+    @min_price = params[:min_price]
+    @max_price = params[:max_price]
+
     @products = Product.search(@query)
     @products = @products.in_stock if @in_stock
+    @products = @products.priced_from(@min_price) if @min_price.present?
+    @products = @products.priced_up_to(@max_price) if @max_price.present?
   end
 
   def show

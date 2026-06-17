@@ -30,6 +30,18 @@ RSpec.describe "Products", type: :request do
       expect(response.body).to include(available.name)
       expect(response.body).not_to include(sold_out.name)
     end
+
+    it "filters the catalog by a price range" do
+      cheap = create(:product, name: "Cheap Lamp", price: 10)
+      mid = create(:product, name: "Mid Chair", price: 30)
+      pricey = create(:product, name: "Pricey Sofa", price: 100)
+
+      get products_path(min_price: "20", max_price: "50")
+
+      expect(response.body).to include(mid.name)
+      expect(response.body).not_to include(cheap.name)
+      expect(response.body).not_to include(pricey.name)
+    end
   end
 
   describe "POST /products" do

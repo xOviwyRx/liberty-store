@@ -19,4 +19,6 @@ class Product < ApplicationRecord
   end
 
   scope :in_stock, -> { where("inventory_count > 0") }
+  scope :priced_from, ->(min) { where("price >= ?", min) }
+  scope :priced_up_to, ->(max) { where("price <= ?", max) }
 end
