@@ -28,14 +28,20 @@ RSpec.describe "Checkouts", type: :request do
   describe "POST /checkout" do
     let(:valid_details) { { checkout: { name: "Ada Lovelace", email: "ada@example.com" } } }
 
-    it "places the order and redirects to its confirmation" do
+    it "places the order and redirects to Stripe Checkout" do
+      stripe_url = "https://checkout.stripe.com/c/pay/cs_test_123"
+      allow(Stripe::Checkout::Session).to receive(:create).and_return(double(url: stripe_url))
       add_to_cart(product)
 
       expect {
         post checkout_path, params: valid_details
       }.to change(Order, :count).by(1)
 
-      expect(response).to redirect_to(order_path(Order.last.generate_token_for(:show)))
+      expect(response).to redirect_to(stripe_url)
+      expect(Stripe::Checkout::Session).to have_received(:create).with(
+        hash_including(mode: "payment", customer_email: "ada@example.com",
+                       metadata: { order_id: Order.last.id })
+      )
     end
 
     context "with invalid details" do

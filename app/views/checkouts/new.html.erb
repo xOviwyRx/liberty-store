@@ -5,7 +5,7 @@
 
   <div class="mt-6 grid items-start gap-6 lg:grid-cols-5">
     <div class="rounded-lg border border-gray-200 bg-white p-6 lg:col-span-2">
-      <%= form_with model: @checkout, url: checkout_path, scope: :checkout, class: "space-y-4" do |form| %>
+      <%= form_with model: @checkout, url: checkout_path, scope: :checkout, class: "space-y-4", data: { turbo: false } do |form| %>
         <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-500">Your details</h2>
 
         <% if @checkout.errors.any? %>
