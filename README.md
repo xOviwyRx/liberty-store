@@ -26,6 +26,7 @@ An e-commerce store with a fast, reactive interface. Browse the catalog, add pro
 - Ruby 3.4.3
 - Ruby on Rails 8.0
 - PostgreSQL
+- Stripe Checkout (test mode)
 
 ### Frontend
 - Hotwire (Turbo + Stimulus)
@@ -115,6 +116,7 @@ Guest checkout that turns a cart into an immutable order.
 
 - Place an order with a name and email.
 - Each line snapshots the product's price at purchase time, so the order stays an accurate record even if prices change later.
+- Payment is handled by Stripe Checkout: placing an order redirects the customer to Stripe's hosted payment page (test mode).
 
 ![Placing an order through guest checkout](docs/checkout_demo.gif)
 
@@ -148,7 +150,17 @@ Guest checkout that turns a cart into an immutable order.
    ```
    Then open http://localhost:3000
 
-5. **Log in** to manage the catalog using the development admin seeded in the previous step (credentials are in `db/seeds.rb`).
+5. **Add your Stripe test key** (needed for checkout)
+   ```bash
+   bin/rails credentials:edit
+   ```
+   ```yaml
+   stripe:
+     secret_key: sk_test_...
+   ```
+   Pay with the test card `4242 4242 4242 4242`, any future expiry and any CVC.
+
+6. **Log in** to manage the catalog using the development admin seeded by `db:setup` (credentials are in `db/seeds.rb`).
 
 ## Development
 
@@ -177,6 +189,7 @@ Configure SMTP for outgoing email in `config/environments/production.rb`.
 - [x] Shopping cart with live Turbo Stream updates
 - [x] Live stock status via Turbo Stream broadcasting
 - [x] Product search, filtering, and pagination with Turbo Frames
+- [ ] Stripe webhook to mark orders as paid
 - [ ] Slide-out cart drawer that opens on add-to-cart (Stimulus + Turbo Streams)
 - [x] Orders and checkout
 - [ ] Full internationalization (English + Spanish)
